@@ -1,0 +1,2 @@
+#!/usr/bin/sh
+for (( i=$2; i<$3; i++ )); do /root/Pulpit/blender-2.80-linux-glibc217-x86_64/blender -b $1 -f $i; done

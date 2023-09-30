@@ -1,0 +1,2 @@
+#!/usr/bin/sh
+lux_render `blender_openedfile`

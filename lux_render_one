@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+#uses special temporary directoy /tem
+export LD_LIBRARY_PATH+=:/root/Pulpit/LuxCore-opencl-sdk/lib
+/root/Pulpit/blender-2.80-linux-glibc217-x86_64/blender $1  --python-expr "import bpy;
+from bpy import *;
+import bpy.ops;
+from bpy.ops import *;
+import os;
+import sys;
+import subprocess;
+S=bpy.context.scene;
+p=subprocess.Popen('/usr/bin/mktemp -d /tem/lux_one.XXXXXXXXXX',shell=True,stdout=subprocess.PIPE);
+p.wait();
+n=p.stdout.readline().decode().strip();
+S.luxcore.config.use_filesaver=True;
+S.luxcore.config.filesaver_path=n;
+S.render.use_lock_interface=True; bpy.ops.render.render(use_viewport=False);
+p=subprocess.Popen('/usr/bin/find '+n+' -iname render.cfg',shell=True,stdout=subprocess.PIPE);
+p.wait();
+l=p.stdout.readline().decode().strip();
+bpy.ops.wm.quit_blender();
+os.system('echo Running LuxCore Render UI for '+sys.argv[1]); os.system('coproc /root/Pulpit/LuxCore-opencl-sdk/bin/luxcoreui -o ' + l);"

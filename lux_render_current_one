@@ -1,0 +1,4 @@
+#!/usr/bin/sh
+lux_render_one `blender_openedfile`
+waitforwin LuxCore UI
+maximize
